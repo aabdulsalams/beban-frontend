@@ -31,7 +31,7 @@ const RegisterPage = () => {
                                     <div className="d-flex justify-content-center py-4">
                                         <a href="index.html" className="logo d-flex align-items-center w-auto">
                                             <img src="/img/logo.png" alt="" />
-                                                <span className="d-none d-lg-block">TestGIS</span>
+                                                <span className="d-none d-lg-block">Bebas Bencana</span>
                                         </a>
                                     </div>
 

@@ -29,7 +29,7 @@ const Header = () => {
             <div className="d-flex align-items-center justify-content-between">
                 <Link to='/dashboard' className="logo d-flex align-items-center">
                     <img src="/img/logo.png" alt="" />
-                    <span className="d-none d-lg-block">TestGIS</span>
+                    <span className="d-none d-lg-block">Bebas Bencana</span>
                 </Link>
                 <i className="bi bi-list toggle-sidebar-btn"></i>
             </div>
