@@ -1,25 +1,22 @@
 import axios from "axios";
+import Cookie from "js-cookie";
 
 const api = axios.create({
     baseURL: 'http://localhost:8000',
     headers: {
         'Content-Type': 'application/json'
-    },
-    withCredentials: true
+    }
 });
 
-api.interceptors.response.use(function (response) {
-    // Any status code that lie within the range of 2xx cause this function to trigger
-    // Do something with response data
-    // console.log("INTERCEPTORS " + response.status);
-    return response;
-  }, function (error) {
-    // console.log("ERROR RESPONSE INTERCEPTORS " + error.response.status);
-    // if (error.response.status === 401) {
-    //     window.location = '/';
-    // }
-    // Any status codes that falls outside the range of 2xx cause this function to trigger
-    // Do something with response error
+api.interceptors.request.use(function (config) {
+    // Do something before request is sent
+    const token = Cookie.get('token');
+    if(token){
+        config.headers.common.Authorization = `Bearer ${token}`;
+    }
+    return config;
+}, function (error) {
+    // Do something with request error
     return Promise.reject(error);
 });
 

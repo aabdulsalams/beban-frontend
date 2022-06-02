@@ -11,16 +11,12 @@ export const AuthProvider = ({ children }) => {
         const formData = new FormData();
         formData.append('email', email);
         formData.append('password', password);
-        api.get('/sanctum/csrf-cookie').then((response) => {
-            api.post('/api/login', formData).then((response) => {
-                Cookie.set('token', response.data.data.access_token);
-                // console.log(response.data);
-                // setUser(response.data.data.user);
-                callback();
-            }).catch((error) => {
-                console.error(error);
-                console.log("Credentials Invalid");
-            })
+        api.post('/api/login', formData).then((response) => {
+            Cookie.set('token', response.data.data.access_token);
+            callback();
+        }).catch((error) => {
+            console.error(error);
+            console.log("Credentials Invalid");
         })
     }
 
