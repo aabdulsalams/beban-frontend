@@ -1,11 +1,11 @@
 import DashboardPage from "./pages/dashboard";
-import LocationsPage from "./pages/locations";
+import DisasterLocationsPage from "./pages/disasters";
 import RatingsPage from "./pages/rating";
 import LoginPage from "./pages/login";
 import RegisterPage from "./pages/register";
-import ShowLocationPage from "./pages/show-location";
-import CreateLocationPage from "./pages/create-location";
-import UpdateLocationPage from "./pages/update-location";
+import ShowDisasterLocationPage from "./pages/show-disaster";
+import CreateDisasterLocationPage from "./pages/create-disaster";
+import UpdateDisasterLocationPage from "./pages/update-disaster";
 import { Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./utils/auth";
 import RequireAuth from "./components/RequireAuth";
@@ -18,11 +18,11 @@ function App() {
         <Route path='/' element={<GuestPage><LoginPage /></GuestPage>} />
         <Route path='/register' element={<GuestPage><RegisterPage /></GuestPage>} />
         <Route path='/dashboard' element={<RequireAuth><DashboardPage /></RequireAuth>} />
-        <Route path='/locations' element={<RequireAuth><LocationsPage /></RequireAuth>} />
+        <Route path='/disasters' element={<RequireAuth><DisasterLocationsPage /></RequireAuth>} />
         <Route path='/rating' element={<RequireAuth><RatingsPage /></RequireAuth>} />
-        <Route path='/locations/create' element={<RequireAuth><CreateLocationPage /></RequireAuth>} />
-        <Route path='/locations/:id' element={<RequireAuth><ShowLocationPage /></RequireAuth>} />
-        <Route path='/locations/edit/:id' element={<RequireAuth><UpdateLocationPage /></RequireAuth>} />
+        <Route path='/disasters/create' element={<RequireAuth><CreateDisasterLocationPage /></RequireAuth>} />
+        <Route path='/disasters/:id' element={<RequireAuth><ShowDisasterLocationPage /></RequireAuth>} />
+        <Route path='/disasters/edit/:id' element={<RequireAuth><UpdateDisasterLocationPage /></RequireAuth>} />
       </Routes>
     </AuthProvider>
   );

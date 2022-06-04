@@ -3,24 +3,16 @@ import { Breadcrumb, BreadcrumbItem, SectionHeader, SectionBody } from "../compo
 import api from "../utils/api";
 import useSWR from "swr";
 import { useSWRConfig } from "swr";
-import Cookie from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
-const fetcher = url => api.get(url, { headers: { 'Authorization': 'Bearer ' + Cookie.get('token') } }).then(res => res.data.data)
+const fetcher = url => api.get(url).then(res => res.data.data)
 
 const RatingsPage = () => {
+    // eslint-disable-next-line
     const { mutate } = useSWRConfig();
     const { data } = useSWR('/api/locations', fetcher);
+    // eslint-disable-next-line
     const navigate = useNavigate();
-
-    const deleteLocation = (id) => {
-        api.delete(`/api/locations/${id}`, { headers: { 'Authorization': 'Bearer ' + Cookie.get('token') } }).then((response) => {
-            navigate('/locations', { replace: false });
-            mutate('/api/locations');
-        }).catch((error) => {
-            console.log(error)
-        })
-    }
 
     return (
         <Layout>

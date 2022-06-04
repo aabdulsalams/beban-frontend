@@ -1,13 +1,17 @@
 import Layout from "../components/layouts/Layout";
 import { Breadcrumb, BreadcrumbItem, SectionHeader, SectionBody } from "../components/bootstrap";
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import Cookie from "js-cookie";
 import { Formik } from 'formik';
 import api from "../utils/api";
 import { useNavigate } from "react-router-dom";
+import useSWR from "swr";
 import { useState, useRef, useCallback, useMemo } from "react";
+import Select from "react-select";
 
-const CreateLocationPage = () => {
+const fetcher = url => api.get(url).then(res => res.data.data)
+
+const CreateDisasterLocationPage = () => {
+    const { data } = useSWR('/api/disaster-types', fetcher);
     const navigate = useNavigate();
     const center = {
         lat: -7.536064,
@@ -33,11 +37,11 @@ const CreateLocationPage = () => {
 
     return (
         <Layout>
-            <SectionHeader title="Create Location">
+            <SectionHeader title="Create Disaster Location">
                 <Breadcrumb>
                     <BreadcrumbItem text="Home" />
-                    <BreadcrumbItem text="Locations" href='/locations' />
-                    <BreadcrumbItem text="Create Location" active />
+                    <BreadcrumbItem text="Disaster Locations" href='/disasters' />
+                    <BreadcrumbItem text="Create Disaster Location" active />
                 </Breadcrumb>
             </SectionHeader>
             <SectionBody>
@@ -45,24 +49,27 @@ const CreateLocationPage = () => {
                     <div className="col-lg-12 col-md-6 col-sm-4">
                         <div className="card">
                             <div className="card-body">
-                                <h5 className="card-title">Create Location</h5>
+                                <h5 className="card-title">Create Disaster Location</h5>
                                 <Formik
                                     initialValues={{
-                                        place: '',
-                                        city: '',
-                                        address: ''
+                                        address: '',
+                                        postal_code: '',
+                                        description: '',
+                                        disaster_types_id: []
                                     }}
                                     onSubmit={(values) => {
                                         // alert(JSON.stringify(values, null, 2));
-                                        const formData = new FormData();
-                                        formData.append('place', values.place);
-                                        formData.append('city', values.city);
-                                        formData.append('address', values.address);
-                                        formData.append('latitude', position.lat);
-                                        formData.append('longitude', position.lng);
-                                        api.post('/api/locations', formData, { headers: { 'Authorization': 'Bearer ' + Cookie.get('token') } }).then((response) => {
+                                        let bodyContent = JSON.stringify({
+                                            "address": values.address,
+                                            "description": values.description,
+                                            "postal_code": values.postal_code,
+                                            "latitude": position.lat.toString(),
+                                            "longitude": position.lng.toString(),
+                                            "disaster_types": values.disaster_types_id
+                                        });
+                                        api.post('/api/disasters', bodyContent).then((response) => {
                                             console.log("Berhasil menambahkan data");
-                                            navigate('/locations');
+                                            navigate('/disasters');
                                         }).catch((error) => {
                                             console.error(error);
                                         })
@@ -71,16 +78,27 @@ const CreateLocationPage = () => {
                                     {({ handleSubmit, handleChange, values, setFieldValue }) => (
                                         <form className="row g-3" onSubmit={handleSubmit}>
                                             <div className="col-12">
-                                                <label htmlFor="place" className="form-label">Place</label>
-                                                <input type="text" className="form-control" name="place" onChange={handleChange} value={values.place} />
-                                            </div>
-                                            <div className="col-12">
                                                 <label htmlFor="address" className="form-label">Address</label>
                                                 <input type="text" className="form-control" name="address" onChange={handleChange} value={values.address} />
                                             </div>
                                             <div className="col-12">
-                                                <label htmlFor="city" className="form-label">City</label>
-                                                <input type="text" className="form-control" name="city" onChange={handleChange} value={values.city} />
+                                                <label htmlFor="postal_code" className="form-label">Postal Code</label>
+                                                <input type="text" className="form-control" name="postal_code" onChange={handleChange} value={values.postal_code} />
+                                            </div>
+                                            <div className="col-12">
+                                                <label htmlFor="disaster_type" className="form-label">Disaster Type</label>
+                                                <Select
+                                                    isClearable
+                                                    isMulti
+                                                    options={data?.map((type) => {
+                                                        return { value: type.id, label: type.name }
+                                                    })}
+                                                    onChange={(item) => setFieldValue('disaster_types_id', item.map((select) => select.value))}
+                                                />
+                                            </div>
+                                            <div className="col-12">
+                                                <label htmlFor="description" className="form-label">Description</label>
+                                                <textarea className="form-control" name="description" rows="5" onChange={handleChange} value={values.description} />
                                             </div>
                                             <div className="col-lg-6 col-md-12">
                                                 <label htmlFor="latitude" className="form-label">Latitude</label>
@@ -126,4 +144,4 @@ const CreateLocationPage = () => {
     );
 }
 
-export default CreateLocationPage;
+export default CreateDisasterLocationPage;

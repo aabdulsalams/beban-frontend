@@ -13,9 +13,9 @@ const Sidebar = () => {
                     <span>Maps</span>
                 </ActiveLink>
 
-                <ActiveLink to="/locations">
+                <ActiveLink to="/disasters">
                     <i className="ri ri-map-pin-2-fill"></i>
-                    <span>Locations</span>
+                    <span>Disaster Locations</span>
                 </ActiveLink>
 
                  <ActiveLink to="/rating">

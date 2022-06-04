@@ -1,18 +1,19 @@
 import Layout from "../components/layouts/Layout";
 import { Breadcrumb, BreadcrumbItem, SectionHeader, SectionBody } from "../components/bootstrap";
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import Cookie from "js-cookie";
 import { Formik } from 'formik';
 import useSWR from "swr";
 import api from "../utils/api";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useRef, useCallback, useMemo } from "react";
+import Select from "react-select";
 
-const fetcher = url => api.get(url, { headers: { 'Authorization': 'Bearer ' + Cookie.get('token') } }).then(res => res.data.data)
+const fetcher = url => api.get(url).then(res => res.data.data)
 
-const UpdateLocationPage = () => {
+const UpdateDisasterLocationPage = () => {
     const { id } = useParams();
-    const { data } = useSWR(`/api/locations/${id}`, fetcher, { refreshInterval: 1000 });
+    const { data } = useSWR(`/api/disasters/${id}`, fetcher, { refreshInterval: 1000 });
+    const { data: disaster_types } = useSWR('/api/disaster-types', fetcher);
     const navigate = useNavigate();
     const center = {
         lat: -7.536064,
@@ -38,12 +39,12 @@ const UpdateLocationPage = () => {
 
     return (
         <Layout>
-            <SectionHeader title="Update Location">
+            <SectionHeader title="Update Disaster Location">
                 <Breadcrumb>
                     <BreadcrumbItem text="Home" />
-                    <BreadcrumbItem text="Locations" href='/locations' />
+                    <BreadcrumbItem text="Disaster Locations" href='/disasters' />
                     <BreadcrumbItem text={id} />
-                    <BreadcrumbItem text="Update Location" active />
+                    <BreadcrumbItem text="Update Disaster Location" active />
                 </Breadcrumb>
             </SectionHeader>
             <SectionBody>
@@ -51,47 +52,61 @@ const UpdateLocationPage = () => {
                     <div className="col-lg-12 col-md-6 col-sm-4">
                         <div className="card">
                             <div className="card-body">
-                                <h5 className="card-title">Update Location</h5>
+                                <h5 className="card-title">Update Disaster Location</h5>
                                 {data && (
                                     <Formik
                                         initialValues={{
-                                            place: data.place,
-                                            city: data.city,
                                             address: data.address,
-                                            // latitude: data.latitude,
-                                            // longitude: data.longitude
+                                            postal_code: data.postal_code,
+                                            description: data.description,
+                                            disaster_types_id: data.types.map((type) => type.id)
                                         }}
                                         onSubmit={(values) => {
-                                            const params = new URLSearchParams();
-                                            params.append('place', values.place);
-                                            params.append('city', values.city);
-                                            params.append('address', values.address);
-                                            params.append('latitude', position.lat);
-                                            params.append('longitude', position.lng);
-                                            api.put(`/api/locations/${id}`, params, {
-                                                headers: { 'Authorization': 'Bearer ' + Cookie.get('token'), 'Content-Type': 'application/x-www-form-urlencoded' }
-                                            }).then((response) => {
+                                            // alert(JSON.stringify(values, null, 2));
+                                            let bodyContent = JSON.stringify({
+                                                "address": values.address,
+                                                "description": values.description,
+                                                "postal_code": values.postal_code,
+                                                "latitude": position.lat.toString(),
+                                                "longitude": position.lng.toString(),
+                                                "disaster_types": values.disaster_types_id
+                                            });
+                                            api.put(`/api/disasters/${id}`, bodyContent).then((response) => {
                                                 console.log(response);
                                                 console.log("Berhasil update data");
-                                                navigate('/locations', { replace: false });
+                                                navigate('/disasters', { replace: false });
                                             }).catch((error) => {
                                                 console.error(error);
                                             })
                                         }}
                                     >
-                                        {({ handleSubmit, handleChange, values, errors }) => (
+                                        {({ handleSubmit, handleChange, values, setFieldValue }) => (
                                             <form className="row g-3" onSubmit={handleSubmit}>
-                                                <div className="col-12">
-                                                    <label htmlFor="place" className="form-label">Place</label>
-                                                    <input type="text" className="form-control" name="place" onChange={handleChange} value={values.place} />
-                                                </div>
                                                 <div className="col-12">
                                                     <label htmlFor="address" className="form-label">Address</label>
                                                     <input type="text" className="form-control" name="address" onChange={handleChange} value={values.address} />
                                                 </div>
                                                 <div className="col-12">
-                                                    <label htmlFor="city" className="form-label">City</label>
-                                                    <input type="text" className="form-control" name="city" onChange={handleChange} value={values.city} />
+                                                    <label htmlFor="postal_code" className="form-label">Postal Code</label>
+                                                    <input type="text" className="form-control" name="postal_code" onChange={handleChange} value={values.postal_code} />
+                                                </div>
+                                                <div className="col-12">
+                                                    <label htmlFor="disaster_type" className="form-label">Disaster Type</label>
+                                                    <Select
+                                                        defaultValue={data.types.map((type) => {
+                                                            return { value: type.id, label: type.name }
+                                                        })}
+                                                        isClearable
+                                                        isMulti
+                                                        options={disaster_types?.map((type) => {
+                                                            return { value: type.id, label: type.name }
+                                                        })}
+                                                        onChange={(item) => setFieldValue('disaster_types_id', item.map((select) => select.value))}
+                                                    />
+                                                </div>
+                                                <div className="col-12">
+                                                    <label htmlFor="description" className="form-label">Description</label>
+                                                    <textarea className="form-control" name="description" rows="5" onChange={handleChange} value={values.description} />
                                                 </div>
                                                 <div className="col-lg-6 col-md-12">
                                                     <label htmlFor="latitude" className="form-label">Latitude</label>
@@ -138,4 +153,4 @@ const UpdateLocationPage = () => {
     );
 }
 
-export default UpdateLocationPage;
+export default UpdateDisasterLocationPage;

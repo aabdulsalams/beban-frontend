@@ -3,21 +3,20 @@ import { Breadcrumb, BreadcrumbItem, SectionHeader, SectionBody } from "../compo
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import api from "../utils/api";
 import useSWR from "swr";
-import Cookie from "js-cookie";
 import { useParams } from "react-router-dom";
 
-const fetcher = url => api.get(url, { headers: { 'Authorization': 'Bearer ' + Cookie.get('token') } }).then(res => res.data.data)
+const fetcher = url => api.get(url).then(res => res.data.data)
 
-const ShowLocationPage = () => {
+const ShowDisasterLocationPage = () => {
     const { id } = useParams();
-    const { data } = useSWR(`/api/locations/${id}`, fetcher);
+    const { data } = useSWR(`/api/disasters/${id}`, fetcher);
 
     return (
         <Layout>
-            <SectionHeader title="Show Location">
+            <SectionHeader title="Show Disaster Location">
                 <Breadcrumb>
                     <BreadcrumbItem text="Home" />
-                    <BreadcrumbItem text="Locations" href='/locations' />
+                    <BreadcrumbItem text="Disaster Locations" href='/disasters' />
                     <BreadcrumbItem text={id} active />
                 </Breadcrumb>
             </SectionHeader>
@@ -26,12 +25,20 @@ const ShowLocationPage = () => {
                     <div className="col-lg-12 col-md-6 col-sm-4">
                         <div className="card">
                             <div className="card-body">
-                                <h5 className="card-title">Show Location</h5>
-                                <b>Place</b> <p>{data?.place}</p>
+                                <h5 className="card-title">Show Disaster Location</h5>
                                 <b>Address</b> <p>{data?.address}</p>
-                                <b>City</b> <p>{data?.city}</p>
+                                <b>Postal Code</b> <p>{data?.postal_code}</p>
                                 <b>Latitude</b> <p>{data?.latitude}</p>
                                 <b>Longitude</b> <p>{data?.longitude}</p>
+                                <b>Disaster Types</b>
+                                <ul>
+                                    {data?.types.map((type, index) => {
+                                        return (
+                                            <li key={index}>{type.name}</li>
+                                        );
+                                    })}
+                                </ul>
+                                <b>Description</b> <p>{data?.description}</p>
                                 {data ? (
                                     <MapContainer center={[data?.latitude, data?.longitude]} zoom={15} scrollWheelZoom={true}>
                                         <TileLayer
@@ -40,9 +47,9 @@ const ShowLocationPage = () => {
                                         />
                                         <Marker position={[data.latitude, data.longitude]}>
                                             <Popup>
-                                                <b>{data.place}</b> <br />
-                                                <p>{data.address}</p> <br />
-                                                <i>{data.city}</i>
+                                                <b>{data.address}</b> <br />
+                                                <i>Postal Code : {data.postal_code}</i> <br />
+                                                <p>{data.description}</p> <br />
                                             </Popup>
                                         </Marker>
                                     </MapContainer>
@@ -58,4 +65,4 @@ const ShowLocationPage = () => {
     );
 }
 
-export default ShowLocationPage;
+export default ShowDisasterLocationPage;
