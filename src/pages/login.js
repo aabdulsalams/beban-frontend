@@ -16,16 +16,6 @@ const LoginPage = () => {
             auth.login(values.email, values.password, () => {
                 navigate('/dashboard', { replace: true });
             });
-            // const formData = new FormData();
-            // formData.append('email', values.email);
-            // formData.append('password', values.password);
-            // api.get('/sanctum/csrf-cookie').then((response) => {
-            //     api.post('/api/login', formData).then((response) => {
-            //         console.log(response.data);
-            //         navigate('/dashboard');
-            //     })
-            // })
-            // navigate('/dashboard', { replace: true });
         },
     });
     return (
@@ -93,7 +83,7 @@ const LoginPage = () => {
                                     </div>
 
                                     <div className="credits">
-                                        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+                                        Copyright © {process.env.REACT_APP_WEB_NAME} 2022
                                     </div>
 
                                 </div>

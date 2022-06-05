@@ -6,7 +6,6 @@ const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
 
-
     const login = (email, password, callback) => {
         const formData = new FormData();
         formData.append('email', email);
@@ -27,8 +26,6 @@ export const AuthProvider = ({ children }) => {
         formData.append('password', password);
         api.post('/api/register', formData).then((response) => {
             Cookie.set('token', response.data.data.access_token);
-            // console.log(response.data);
-            // setUser(response.data.data.user);
             callback();
         }).catch((error) => {
             console.error(error);

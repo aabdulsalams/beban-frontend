@@ -96,7 +96,7 @@ const RegisterPage = () => {
                                     </div>
 
                                     <div className="credits">
-                                        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+                                        Copyright © {process.env.REACT_APP_WEB_NAME} 2022
                                     </div>
 
                                 </div>

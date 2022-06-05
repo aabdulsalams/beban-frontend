@@ -2,10 +2,10 @@ const Footer = () => {
     return (
         <footer id="footer" className="footer">
             <div className="copyright">
-                &copy; Copyright <strong><span>Bebas Bencana</span></strong>. All Rights Reserved
+                &copy; Copyright <strong><span>{process.env.REACT_APP_WEB_NAME}</span></strong>. All Rights Reserved
             </div>
             <div className="credits">
-                Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+                2022
             </div>
         </footer>
     );
