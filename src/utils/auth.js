@@ -1,6 +1,9 @@
 import { createContext, useContext } from "react";
 import Cookie from "js-cookie";
 import api from "./api";
+import alertify from "alertifyjs";
+import "alertifyjs/build/css/alertify.min.css";
+import "alertifyjs/build/css/themes/bootstrap.min.css";
 
 const AuthContext = createContext(null);
 
@@ -14,8 +17,11 @@ export const AuthProvider = ({ children }) => {
             Cookie.set('token', response.data.data.access_token);
             callback();
         }).catch((error) => {
-            console.error(error);
-            console.log("Credentials Invalid");
+            if(error.response.data.status === 401){
+                alertify.alert('Something Wrong', 'Invalid email or password');
+            } else if(error.response.data.status === 400){
+                alertify.alert('Something Wrong', error.response.data.message);
+            }
         })
     }
 
@@ -28,8 +34,9 @@ export const AuthProvider = ({ children }) => {
             Cookie.set('token', response.data.data.access_token);
             callback();
         }).catch((error) => {
-            console.error(error);
-            console.log("Credentials Invalid");
+            if(error.response.data.status === 400){
+                alertify.alert('Something Wrong', error.response.data.message);
+            }
         })
     }
 

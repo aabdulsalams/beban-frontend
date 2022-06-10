@@ -7,8 +7,18 @@ import api from "../utils/api";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useRef, useCallback, useMemo } from "react";
 import Select from "react-select";
+import * as Yup from 'yup';
+import alertify from "alertifyjs";
+import "alertifyjs/build/css/alertify.min.css";
+import "alertifyjs/build/css/themes/bootstrap.min.css";
 
 const fetcher = url => api.get(url).then(res => res.data.data)
+
+const schema = Yup.object().shape({
+    address: Yup.string().required(),
+    postal_code: Yup.number().required(),
+    description: Yup.string().required()
+});
 
 const UpdateDisasterLocationPage = () => {
     const { id } = useParams();
@@ -55,6 +65,8 @@ const UpdateDisasterLocationPage = () => {
                                 <h5 className="card-title">Update Disaster Location</h5>
                                 {data && (
                                     <Formik
+                                        validationSchema={schema}
+                                        validateOnChange={false}
                                         initialValues={{
                                             address: data.address,
                                             postal_code: data.postal_code,
@@ -72,23 +84,25 @@ const UpdateDisasterLocationPage = () => {
                                                 "disaster_types": values.disaster_types_id
                                             });
                                             api.put(`/api/disasters/${id}`, bodyContent).then((response) => {
-                                                console.log(response);
-                                                console.log("Berhasil update data");
-                                                navigate('/disasters', { replace: false });
+                                                alertify.alert('Success', response.data.message, () => {
+                                                    navigate('/disasters', { replace: false });
+                                                })
                                             }).catch((error) => {
                                                 console.error(error);
                                             })
                                         }}
                                     >
-                                        {({ handleSubmit, handleChange, values, setFieldValue }) => (
+                                        {({ handleSubmit, handleChange, values, errors, setFieldValue }) => (
                                             <form className="row g-3" onSubmit={handleSubmit}>
                                                 <div className="col-12">
                                                     <label htmlFor="address" className="form-label">Address</label>
-                                                    <input type="text" className="form-control" name="address" onChange={handleChange} value={values.address} />
+                                                    <input type="text" className={`form-control ${!!errors.address ? 'is-invalid' : ''}`} name="address" onChange={handleChange} value={values.address} />
+                                                    <div className="invalid-feedback">{errors.address}</div>
                                                 </div>
                                                 <div className="col-12">
                                                     <label htmlFor="postal_code" className="form-label">Postal Code</label>
-                                                    <input type="text" className="form-control" name="postal_code" onChange={handleChange} value={values.postal_code} />
+                                                    <input type="text" className={`form-control ${!!errors.postal_code ? 'is-invalid' : ''}`} name="postal_code" onChange={handleChange} value={values.postal_code} />
+                                                    <div className="invalid-feedback">{errors.postal_code}</div>
                                                 </div>
                                                 <div className="col-12">
                                                     <label htmlFor="disaster_type" className="form-label">Disaster Type</label>
@@ -106,7 +120,8 @@ const UpdateDisasterLocationPage = () => {
                                                 </div>
                                                 <div className="col-12">
                                                     <label htmlFor="description" className="form-label">Description</label>
-                                                    <textarea className="form-control" name="description" rows="5" onChange={handleChange} value={values.description} />
+                                                    <textarea className={`form-control ${!!errors.description ? 'is-invalid' : ''}`} name="description" rows="5" onChange={handleChange} value={values.description} />
+                                                    <div className="invalid-feedback">{errors.description}</div>
                                                 </div>
                                                 <div className="col-lg-6 col-md-12">
                                                     <label htmlFor="latitude" className="form-label">Latitude</label>

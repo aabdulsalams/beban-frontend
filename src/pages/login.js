@@ -1,23 +1,17 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useFormik } from 'formik';
-// import api from "../utils/api";
+import { Formik } from 'formik';
 import { useAuth } from "../utils/auth";
+import * as Yup from 'yup';
+
+const schema = Yup.object().shape({
+    email: Yup.string().email().required(),
+    password: Yup.string().required().min(5)
+});
 
 const LoginPage = () => {
     const auth = useAuth();
     const navigate = useNavigate();
-    const formik = useFormik({
-        initialValues: {
-            email: '',
-            password: ''
-        },
-        onSubmit: values => {
-            // alert(JSON.stringify(values, null, 2));
-            auth.login(values.email, values.password, () => {
-                navigate('/dashboard', { replace: true });
-            });
-        },
-    });
+    
     return (
         <>
             <main>
@@ -44,40 +38,57 @@ const LoginPage = () => {
                                                 <p className="text-center small">Enter your email & password to login</p>
                                             </div>
 
-                                            <form className="row g-3" onSubmit={formik.handleSubmit}>
+                                            <Formik
+                                                validationSchema={schema}
+                                                validateOnChange={false}
+                                                initialValues={{
+                                                    email: '',
+                                                    password: ''
+                                                }}
+                                                onSubmit={(values) => {
+                                                    // alert(JSON.stringify(values, null, 2));
+                                                    auth.login(values.email, values.password, () => {
+                                                        navigate('/dashboard', { replace: true });
+                                                    });
+                                                }}
+                                            >
+                                                {({ handleSubmit, handleChange, values, errors }) => (
+                                                    <form className="row g-3" onSubmit={handleSubmit}>
 
-                                                <div className="col-12">
-                                                    <label htmlFor="email" className="form-label">Email</label>
-                                                    <input
-                                                        type="email"
-                                                        name="email"
-                                                        className="form-control"
-                                                        id="email"
-                                                        onChange={formik.handleChange}
-                                                        value={formik.values.email}
-                                                        required
-                                                    />
-                                                </div>
+                                                        <div className="col-12">
+                                                            <label htmlFor="email" className="form-label">Email</label>
+                                                            <input
+                                                                type="email"
+                                                                name="email"
+                                                                className={`form-control ${!!errors.email ? 'is-invalid' : ''}`}
+                                                                id="email"
+                                                                onChange={handleChange}
+                                                                value={values.email}
+                                                            />
+                                                            <div className="invalid-feedback">{errors.email}</div>
+                                                        </div>
 
-                                                <div className="col-12">
-                                                    <label htmlFor="password" className="form-label">Password</label>
-                                                    <input
-                                                        type="password"
-                                                        name="password"
-                                                        className="form-control"
-                                                        id="password"
-                                                        onChange={formik.handleChange}
-                                                        value={formik.values.password}
-                                                        required
-                                                    />
-                                                </div>
-                                                <div className="col-12">
-                                                    <button className="btn btn-primary w-100" type="submit">Login</button>
-                                                </div>
-                                                <div className="col-12">
-                                                    <p className="small mb-0">Don't have account? <Link to='/register'>Create an account</Link></p>
-                                                </div>
-                                            </form>
+                                                        <div className="col-12">
+                                                            <label htmlFor="password" className="form-label">Password</label>
+                                                            <input
+                                                                type="password"
+                                                                name="password"
+                                                                className={`form-control ${!!errors.password ? 'is-invalid' : ''}`}
+                                                                id="password"
+                                                                onChange={handleChange}
+                                                                value={values.password}
+                                                            />
+                                                            <div className="invalid-feedback">{errors.password}</div>
+                                                        </div>
+                                                        <div className="col-12">
+                                                            <button className="btn btn-primary w-100" type="submit">Login</button>
+                                                        </div>
+                                                        <div className="col-12">
+                                                            <p className="small mb-0">Don't have account? <Link to='/register'>Create an account</Link></p>
+                                                        </div>
+                                                    </form>
+                                                )}
+                                            </Formik>
 
                                         </div>
                                     </div>
