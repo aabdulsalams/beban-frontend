@@ -24,10 +24,10 @@ const RegisterPage = () => {
                                 <div className="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
 
                                     <div className="d-flex justify-content-center py-4">
-                                        <a href="index.html" className="logo d-flex align-items-center w-auto">
-                                            <img src="/img/logo.png" alt="" />
-                                            <span className="d-none d-lg-block">Bebas Bencana</span>
-                                        </a>
+                                        <Link to='/' className="logo d-flex align-items-center w-auto">
+                                            <img src="/img/logo-jatim.png" alt="" />
+                                            <span className="d-none d-lg-block">{process.env.REACT_APP_WEB_NAME}</span>
+                                        </Link>
                                     </div>
 
                                     <div className="card mb-3">

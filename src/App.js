@@ -10,6 +10,7 @@ import { Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./utils/auth";
 import RequireAuth from "./components/RequireAuth";
 import GuestPage from "./components/GuestPage";
+import NotFoundPage from "./pages/404";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path='/disasters/create' element={<RequireAuth><CreateDisasterLocationPage /></RequireAuth>} />
         <Route path='/disasters/:id' element={<RequireAuth><ShowDisasterLocationPage /></RequireAuth>} />
         <Route path='/disasters/edit/:id' element={<RequireAuth><UpdateDisasterLocationPage /></RequireAuth>} />
+        <Route path='*' element={<NotFoundPage />} />
       </Routes>
     </AuthProvider>
   );
