@@ -3,10 +3,12 @@ import api from "../../utils/api";
 import { useAuth } from "../../utils/auth";
 import useSWR from "swr";
 import Cookie from "js-cookie";
+import { useState } from "react";
 
 const fetcher = url => api.get(url, { headers: { 'Authorization': 'Bearer ' + Cookie.get('token') } }).then(res => res.data.data)
 
 const Header = () => {
+    const [sidebarOpen, setSidebarOpen] = useState(true);
     const { data } = useSWR('/api/user', fetcher)
     const auth = useAuth();
     const navigate = useNavigate();
@@ -23,6 +25,16 @@ const Header = () => {
         // })
     }
 
+    const toggleSidebarButton = () => {
+        if(sidebarOpen) {
+            setSidebarOpen(false);
+            document.body.classList.remove('toggle-sidebar');
+        } else {
+            setSidebarOpen(true);
+            document.body.classList.add('toggle-sidebar');
+        }
+    }
+
     return (
         <header id="header" className="header fixed-top d-flex align-items-center">
 
@@ -31,7 +43,7 @@ const Header = () => {
                     <img src="/img/logo-jatim.png" alt="" />
                     <span className="d-none d-lg-block">{process.env.REACT_APP_WEB_NAME}</span>
                 </Link>
-                <i className="bi bi-list toggle-sidebar-btn"></i>
+                <i className="bi bi-list toggle-sidebar-btn" onClick={() => toggleSidebarButton()}></i>
             </div>
 
             <nav className="header-nav ms-auto">
