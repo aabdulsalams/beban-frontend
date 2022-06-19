@@ -1,19 +1,25 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import Cookie from "js-cookie";
 import api from "./api";
 import alertify from "alertifyjs";
 import "alertifyjs/build/css/alertify.min.css";
 import "alertifyjs/build/css/themes/bootstrap.min.css";
 
-const AuthContext = createContext(null);
+const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        authCheck();
+    }, []);
 
     const login = (email, password, callback) => {
         const formData = new FormData();
         formData.append('email', email);
         formData.append('password', password);
         api.post('/api/login', formData).then((response) => {
+            setUser(response.data.data.user);
             Cookie.set('token', response.data.data.access_token);
             callback();
         }).catch((error) => {
@@ -31,6 +37,7 @@ export const AuthProvider = ({ children }) => {
         formData.append('email', email);
         formData.append('password', password);
         api.post('/api/register', formData).then((response) => {
+            setUser(response.data.data.user);
             Cookie.set('token', response.data.data.access_token);
             callback();
         }).catch((error) => {
@@ -40,8 +47,16 @@ export const AuthProvider = ({ children }) => {
         })
     }
 
+    const authCheck = async() => {
+        if(Cookie.get('token') != null){
+            const { data } = await api.get('/api/user');
+            setUser(data.data);
+        }
+    }
+
     const logout = (callback) => {
-        api.get('/api/logout', { headers: { 'Authorization': 'Bearer ' + Cookie.get('token') } }).then((response) => {
+        api.get('/api/logout').then((response) => {
+            setUser(null);
             Cookie.remove('token');
             callback();
         }).catch((error) => {
@@ -50,7 +65,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     return (
-        <AuthContext.Provider value={{ login, logout, register }}>
+        <AuthContext.Provider value={{ login, logout, register, user, setUser }}>
             {children}
         </AuthContext.Provider>
     );

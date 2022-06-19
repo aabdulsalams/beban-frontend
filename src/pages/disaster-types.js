@@ -1,25 +1,25 @@
 import Layout from "../components/layouts/Layout";
 import { Breadcrumb, BreadcrumbItem, SectionHeader, SectionBody } from "../components/bootstrap";
+import { useNavigate } from "react-router-dom";
 import api from "../utils/api";
 import useSWR from "swr";
 import { useSWRConfig } from "swr";
-import { useNavigate } from "react-router-dom";
 import alertify from "alertifyjs";
 import "alertifyjs/build/css/alertify.min.css";
 import "alertifyjs/build/css/themes/bootstrap.min.css";
 
 const fetcher = url => api.get(url).then(res => res.data.data)
 
-const DisasterLocationsPage = () => {
+const DisasterTypesPage = () => {
     const { mutate } = useSWRConfig();
-    const { data } = useSWR('/api/disasters', fetcher);
+    const { data } = useSWR('/api/disaster-types', fetcher);
     const navigate = useNavigate();
 
-    const deleteLocation = (id) => {
+    const deleteType = (id) => {
         alertify.confirm('Are you sure', 'Once delete this data, you will not recover it anymore', function () {
-            api.delete(`/api/disasters/${id}`).then((response) => {
-                navigate('/disasters', { replace: false });
-                mutate('/api/disasters');
+            api.delete(`/api/disaster-types/${id}`).then((response) => {
+                navigate('/disaster-types', { replace: false });
+                mutate('/api/disaster-types');
             }).catch((error) => {
                 console.log(error)
             })
@@ -28,10 +28,10 @@ const DisasterLocationsPage = () => {
 
     return (
         <Layout>
-            <SectionHeader title="Disaster Locations">
+            <SectionHeader title="Disaster Types">
                 <Breadcrumb>
                     <BreadcrumbItem text="Home" />
-                    <BreadcrumbItem text="Disaster Locations" active />
+                    <BreadcrumbItem text="Disaster Types" active />
                 </Breadcrumb>
             </SectionHeader>
             <SectionBody>
@@ -39,37 +39,32 @@ const DisasterLocationsPage = () => {
                     <div className="col-lg-12 col-md-6 col-sm-4">
                         <div className="card">
                             <div className="card-body">
-                                <h5 className="card-title">Disaster Locations</h5>
-                                <div className="d-grid gap-2 mt-3"> <button className="btn btn-primary" type="button" onClick={() => navigate('/disasters/create')}><i className="ri ri-map-pin-2-fill"></i> Add Disaster Location</button></div> <br />
+                                <h5 className="card-title">Disaster Types</h5>
+                                <div className="d-grid gap-2 mt-3"> <button className="btn btn-primary" type="button" onClick={() => navigate('/disaster-types/create')}><i className="ri ri-fire-fill"></i> Add Disaster Type</button></div> <br />
                                 <table className="table table-bordered table-responsive">
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
-                                            <th scope="col">Address</th>
-                                            <th scope="col">Postal Code</th>
-                                            <th scope="col">Latitude</th>
-                                            <th scope="col">Longitude</th>
+                                            <th scope="col">Disaster Name</th>
+                                            <th scope="col">Total Disaster</th>
                                             <th scope="col">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {data?.map((disaster, index) => {
+                                        {data?.map((type, index) => {
                                             return (
                                                 <tr key={index}>
-                                                    <th scope="row">{disaster.id}</th>
-                                                    <td>{disaster.address}</td>
-                                                    <td>{disaster.postal_code}</td>
-                                                    <td>{disaster.latitude}</td>
-                                                    <td>{disaster.longitude}</td>
+                                                    <th scope="row">{type.id}</th>
+                                                    <td>{type.name}</td>
+                                                    <td>{type.disasters_count}</td>
                                                     <td>
                                                         <div className="btn-group" role="group" aria-label="Basic example">
-                                                            <button type="button" className="btn btn-info" onClick={() => navigate(`/disasters/${disaster.id}`)}><i className="bi bi-info-circle"></i></button>
-                                                            <button type="button" className="btn btn-warning" onClick={() => navigate(`/disasters/edit/${disaster.id}`)}><i className="bi bi-pencil-square"></i></button>
-                                                            <button type="button" className="btn btn-danger" onClick={() => deleteLocation(disaster.id)}><i className="bi bi-trash-fill"></i></button>
+                                                            <button type="button" className="btn btn-warning" onClick={() => navigate(`/disaster-types/edit/${type.id}`)}><i className="bi bi-pencil-square"></i></button>
+                                                            <button type="button" className="btn btn-danger" onClick={() => deleteType(type.id)}><i className="bi bi-trash-fill"></i></button>
                                                         </div>
                                                     </td>
                                                 </tr>
-                                            );
+                                            )
                                         })}
                                     </tbody>
                                 </table>
@@ -82,4 +77,4 @@ const DisasterLocationsPage = () => {
     );
 }
 
-export default DisasterLocationsPage;
+export default DisasterTypesPage;
