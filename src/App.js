@@ -1,3 +1,4 @@
+import PublicDashboardPage from "./pages/public-dashboard";
 import DashboardPage from "./pages/dashboard";
 import DisasterLocationsPage from "./pages/disasters";
 import RatingsPage from "./pages/rating";
@@ -18,7 +19,8 @@ import NotFoundPage from "./pages/404";
 function App() {
   return (
     <Routes>
-      <Route path='/' element={<GuestPage><LoginPage /></GuestPage>} />
+      <Route path='/' element={<PublicDashboardPage />} />
+      <Route path='/login' element={<GuestPage><LoginPage /></GuestPage>} />
       <Route path='/register' element={<GuestPage><RegisterPage /></GuestPage>} />
       <Route path='/dashboard' element={<RequireAuth><DashboardPage /></RequireAuth>} />
       <Route path='/disasters' element={<RequireAuth><DisasterLocationsPage /></RequireAuth>} />
