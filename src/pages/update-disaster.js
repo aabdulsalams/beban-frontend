@@ -22,8 +22,8 @@ const schema = Yup.object().shape({
 
 const UpdateDisasterLocationPage = () => {
     const { id } = useParams();
-    const { data } = useSWR(`/api/disasters/${id}`, fetcher, { refreshInterval: 1000 });
-    const { data: disaster_types } = useSWR('/api/disaster-types', fetcher);
+    const { data } = useSWR(`/disasters/${id}`, fetcher, { refreshInterval: 1000 });
+    const { data: disaster_types } = useSWR('/disaster-types', fetcher);
     const navigate = useNavigate();
     const center = {
         lat: -7.536064,
@@ -83,7 +83,7 @@ const UpdateDisasterLocationPage = () => {
                                                 "longitude": position.lng.toString(),
                                                 "disaster_types": values.disaster_types_id
                                             });
-                                            api.put(`/api/disasters/${id}`, bodyContent).then((response) => {
+                                            api.put(`/disasters/${id}`, bodyContent).then((response) => {
                                                 alertify.alert('Success', response.data.message, () => {
                                                     navigate('/disasters', { replace: false });
                                                 })

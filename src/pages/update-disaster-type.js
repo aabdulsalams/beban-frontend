@@ -17,7 +17,7 @@ const schema = Yup.object().shape({
 
 const UpdateDisasterTypePage = () => {
     const { id } = useParams();
-    const { data } = useSWR(`/api/disaster-types/${id}`, fetcher);
+    const { data } = useSWR(`/disaster-types/${id}`, fetcher);
     const navigate = useNavigate();
 
 
@@ -48,7 +48,7 @@ const UpdateDisasterTypePage = () => {
                                             // alert(JSON.stringify(values, null, 2));
                                             const params = new URLSearchParams();
                                             params.append('name', values.name);
-                                            api.put(`/api/disaster-types/${id}`, params, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }}).then((response) => {
+                                            api.put(`/disaster-types/${id}`, params, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }}).then((response) => {
                                                 alertify.alert('Success', response.data.message, () => {
                                                     navigate('/disaster-types');
                                                 })

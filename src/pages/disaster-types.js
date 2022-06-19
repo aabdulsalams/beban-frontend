@@ -12,14 +12,14 @@ const fetcher = url => api.get(url).then(res => res.data.data)
 
 const DisasterTypesPage = () => {
     const { mutate } = useSWRConfig();
-    const { data } = useSWR('/api/disaster-types', fetcher);
+    const { data } = useSWR('/disaster-types', fetcher);
     const navigate = useNavigate();
 
     const deleteType = (id) => {
         alertify.confirm('Are you sure', 'Once delete this data, you will not recover it anymore', function () {
-            api.delete(`/api/disaster-types/${id}`).then((response) => {
+            api.delete(`/disaster-types/${id}`).then((response) => {
                 navigate('/disaster-types', { replace: false });
-                mutate('/api/disaster-types');
+                mutate('/disaster-types');
             }).catch((error) => {
                 console.log(error)
             })

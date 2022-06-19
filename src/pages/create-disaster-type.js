@@ -40,7 +40,7 @@ const CreateDisasterTypePage = () => {
                                         // alert(JSON.stringify(values, null, 2));
                                         const formData = new FormData();
                                         formData.append('name', values.name);
-                                        api.post('/api/disaster-types', formData).then((response) => {
+                                        api.post('/disaster-types', formData).then((response) => {
                                             alertify.alert('Success', response.data.message, () => {
                                                 navigate('/disaster-types');
                                             })

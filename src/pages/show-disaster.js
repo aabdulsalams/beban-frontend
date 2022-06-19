@@ -9,7 +9,7 @@ const fetcher = url => api.get(url).then(res => res.data.data)
 
 const ShowDisasterLocationPage = () => {
     const { id } = useParams();
-    const { data } = useSWR(`/api/disasters/${id}`, fetcher);
+    const { data } = useSWR(`/disasters/${id}`, fetcher);
 
     return (
         <Layout>

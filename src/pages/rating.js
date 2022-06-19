@@ -10,7 +10,7 @@ const fetcher = url => api.get(url).then(res => res.data.data)
 const RatingsPage = () => {
     // eslint-disable-next-line
     const { mutate } = useSWRConfig();
-    const { data } = useSWR('/api/locations', fetcher);
+    const { data } = useSWR('/disasters', fetcher);
     // eslint-disable-next-line
     const navigate = useNavigate();
 

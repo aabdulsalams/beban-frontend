@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
         const formData = new FormData();
         formData.append('email', email);
         formData.append('password', password);
-        api.post('/api/login', formData).then((response) => {
+        api.post('/login', formData).then((response) => {
             setUser(response.data.data.user);
             Cookie.set('token', response.data.data.access_token);
             callback();
@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }) => {
         formData.append('name', name);
         formData.append('email', email);
         formData.append('password', password);
-        api.post('/api/register', formData).then((response) => {
+        api.post('/register', formData).then((response) => {
             setUser(response.data.data.user);
             Cookie.set('token', response.data.data.access_token);
             callback();
@@ -55,7 +55,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     const logout = (callback) => {
-        api.get('/api/logout').then((response) => {
+        api.get('/logout').then((response) => {
             setUser(null);
             Cookie.remove('token');
             callback();
