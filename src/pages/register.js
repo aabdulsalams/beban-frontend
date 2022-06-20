@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Formik } from 'formik';
 import { useAuth } from "../utils/auth";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import * as Yup from 'yup';
 
 const schema = Yup.object().shape({

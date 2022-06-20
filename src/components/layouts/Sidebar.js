@@ -11,48 +11,22 @@ const Sidebar = () => {
 
                 <li className="nav-heading">Menu</li>
 
-                {user ? (
-                    <>
-                        <ActiveLink to="/dashboard">
-                            <i className="ri ri-map-2-fill"></i>
-                            <span>Maps</span>
-                        </ActiveLink>
+                <ActiveLink to="/dashboard">
+                    <i className="ri ri-map-2-fill"></i>
+                    <span>Maps</span>
+                </ActiveLink>
 
-                        <ActiveLink to="/disasters">
-                            <i className="ri ri-map-pin-2-fill"></i>
-                            <span>Disaster Locations</span>
-                        </ActiveLink>
+                <ActiveLink to="/disasters">
+                    <i className="ri ri-map-pin-2-fill"></i>
+                    <span>Disaster Locations</span>
+                </ActiveLink>
 
-                        {user?.role === 'admin' ? (
-                            <ActiveLink to="/disaster-types">
-                                <i className="ri ri-flood-fill"></i>
-                                <span>Disaster Types</span>
-                            </ActiveLink>
-                        ) : null}
-
-                        <ActiveLink to="/rating">
-                            <i className="ri ri-star-fill"></i>
-                            <span>Ratings</span>
-                        </ActiveLink>
-                    </>
-                ) : (
-                    <>
-                        <ActiveLink to="/">
-                            <i className="bi bi-grid"></i>
-                            <span>Dashboard</span>
-                        </ActiveLink>
-
-                        <ActiveLink to="/login">
-                            <i className="ri ri-login-box-line"></i>
-                            <span>Login</span>
-                        </ActiveLink>
-
-                        <ActiveLink to="/register">
-                            <i className="ri ri-user-3-line"></i>
-                            <span>Register</span>
-                        </ActiveLink>
-                    </>
-                )}
+                {user?.role === 'admin' ? (
+                    <ActiveLink to="/disaster-types">
+                        <i className="ri ri-flood-fill"></i>
+                        <span>Disaster Types</span>
+                    </ActiveLink>
+                ) : null}
 
             </ul>
 

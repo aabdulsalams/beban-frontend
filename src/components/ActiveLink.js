@@ -2,7 +2,7 @@ import { Link, useMatch, useResolvedPath } from "react-router-dom";
 
 const ActiveLink = ({ children, to, ...props }) => {
     let resolved = useResolvedPath(to);
-    let match = useMatch({ path: resolved.pathname, end: false });
+    let match = useMatch({ path: resolved.pathname, end: true });
 
     return (
         <li className="nav-item">

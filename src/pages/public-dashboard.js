@@ -1,6 +1,6 @@
-import Layout from "../components/layouts/Layout";
+import Layout from "../components/layouts/guest/Layout";
 import { SectionBody } from "../components/bootstrap";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 // import api from "../utils/public-api";
 // import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 // import useSWR from "swr";

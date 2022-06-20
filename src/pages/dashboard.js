@@ -3,12 +3,12 @@ import { Breadcrumb, BreadcrumbItem, SectionHeader, SectionBody } from "../compo
 import api from "../utils/api";
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import useSWR from "swr";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 const fetcher = url => api.get(url).then(res => res.data.data)
 
 const DashboardPage = () => {
-    const { data } = useSWR('/api/disasters', fetcher)
+    const { data } = useSWR('/disasters', fetcher)
     const position = [-7.536064, 112.238402];
 
     return (

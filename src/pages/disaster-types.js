@@ -7,7 +7,7 @@ import { useSWRConfig } from "swr";
 import alertify from "alertifyjs";
 import "alertifyjs/build/css/alertify.min.css";
 import "alertifyjs/build/css/themes/bootstrap.min.css";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 const fetcher = url => api.get(url).then(res => res.data.data)
 

@@ -5,13 +5,16 @@ import './index.css';
 import { AuthProvider } from "./utils/auth";
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { HelmetProvider } from 'react-helmet-async';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <App />
+        <HelmetProvider>
+          <App />
+        </HelmetProvider>
       </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>

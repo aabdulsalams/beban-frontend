@@ -49,7 +49,7 @@ export const AuthProvider = ({ children }) => {
 
     const authCheck = async() => {
         if(Cookie.get('token') != null){
-            const { data } = await api.get('/api/user');
+            const { data } = await api.get('/user');
             setUser(data.data);
         }
     }

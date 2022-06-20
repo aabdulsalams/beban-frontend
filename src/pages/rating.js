@@ -1,19 +1,13 @@
-import Layout from "../components/layouts/Layout";
+import Layout from "../components/layouts/guest/Layout";
 import { Breadcrumb, BreadcrumbItem, SectionHeader, SectionBody } from "../components/bootstrap";
 import api from "../utils/public-api";
 import useSWR from "swr";
-import { useSWRConfig } from "swr";
-import { useNavigate } from "react-router-dom";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 const fetcher = url => api.get(url).then(res => res.data.data)
 
 const RatingsPage = () => {
-    // eslint-disable-next-line
-    const { mutate } = useSWRConfig();
     const { data } = useSWR('/disasters', fetcher);
-    // eslint-disable-next-line
-    const navigate = useNavigate();
 
     function checkStatus(count) {
         let status = 'N/A';
@@ -31,13 +25,12 @@ const RatingsPage = () => {
     return (
 
         <Layout>
-                    {console.log(data)}
             <Helmet>
-                <title>Peringkat</title>
+                <title>Jatim {process.env.REACT_APP_WEB_NAME}</title>
             </Helmet>
             <SectionHeader title="Ratings">
                 <Breadcrumb>
-                    <BreadcrumbItem text="Home" />
+                    <BreadcrumbItem text="Menu" />
                     <BreadcrumbItem text="Ratings" active />
                 </Breadcrumb>
             </SectionHeader>
