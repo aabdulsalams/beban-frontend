@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import alertify from "alertifyjs";
 import "alertifyjs/build/css/alertify.min.css";
 import "alertifyjs/build/css/themes/bootstrap.min.css";
+import { Helmet } from "react-helmet";
 
 const fetcher = url => api.get(url).then(res => res.data.data)
 
@@ -28,6 +29,9 @@ const DisasterLocationsPage = () => {
 
     return (
         <Layout>
+            <Helmet>
+                <title>Daftar Bencana</title>
+            </Helmet>
             <SectionHeader title="Disaster Locations">
                 <Breadcrumb>
                     <BreadcrumbItem text="Home" />

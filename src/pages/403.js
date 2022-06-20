@@ -1,8 +1,12 @@
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 const ForbiddenPage = () => {
     return (
         <main>
+            <Helmet>
+                <title>Oh no</title>
+            </Helmet>
             <div className="container">
                 <section className="section error-404 min-vh-100 d-flex flex-column align-items-center justify-content-center">
                     <h1>403</h1>

@@ -7,6 +7,7 @@ import * as Yup from 'yup';
 import alertify from "alertifyjs";
 import "alertifyjs/build/css/alertify.min.css";
 import "alertifyjs/build/css/themes/bootstrap.min.css";
+import { Helmet } from "react-helmet";
 
 const schema = Yup.object().shape({
     name: Yup.string().required()
@@ -17,6 +18,9 @@ const CreateDisasterTypePage = () => {
 
     return (
         <Layout>
+            <Helmet>
+                <title>Buat tipe bencana</title>
+            </Helmet>
             <SectionHeader title="Create Disaster Type">
                 <Breadcrumb>
                     <BreadcrumbItem text="Home" />

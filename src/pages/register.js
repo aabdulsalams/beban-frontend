@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Formik } from 'formik';
 import { useAuth } from "../utils/auth";
+import { Helmet } from "react-helmet";
 import * as Yup from 'yup';
 
 const schema = Yup.object().shape({
@@ -15,6 +16,9 @@ const RegisterPage = () => {
 
     return (
         <>
+            <Helmet>
+                <title>Register</title>
+            </Helmet>
             <main>
                 <div className="container">
 
@@ -99,7 +103,7 @@ const RegisterPage = () => {
                                                             <button className="btn btn-primary w-100" type="submit">Create Account</button>
                                                         </div>
                                                         <div className="col-12">
-                                                            <p className="small mb-0">Already have an account? <Link to='/'>Log in</Link></p>
+                                                            <p className="small mb-0">Already have an account? <Link to='/login'>Log in</Link></p>
                                                         </div>
                                                     </form>
                                                 )}

@@ -3,6 +3,7 @@ import { Breadcrumb, BreadcrumbItem, SectionHeader, SectionBody } from "../compo
 import api from "../utils/api";
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import useSWR from "swr";
+import { Helmet } from "react-helmet";
 
 const fetcher = url => api.get(url).then(res => res.data.data)
 
@@ -12,6 +13,9 @@ const DashboardPage = () => {
 
     return (
         <Layout>
+            <Helmet>
+                <title>Dashboard</title>
+            </Helmet>
             <SectionHeader title="Maps">
                 <Breadcrumb>
                     <BreadcrumbItem text="Home" />

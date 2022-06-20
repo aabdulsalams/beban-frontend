@@ -4,6 +4,7 @@ import api from "../utils/api";
 import useSWR from "swr";
 import { useSWRConfig } from "swr";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 const fetcher = url => api.get(url).then(res => res.data.data)
 
@@ -16,6 +17,9 @@ const RatingsPage = () => {
 
     return (
         <Layout>
+            <Helmet>
+                <title>Peringkat</title>
+            </Helmet>
             <SectionHeader title="Ratings">
                 <Breadcrumb>
                     <BreadcrumbItem text="Home" />

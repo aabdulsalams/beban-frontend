@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Formik } from 'formik';
 import { useAuth } from "../utils/auth";
+import { Helmet } from "react-helmet";
 import * as Yup from 'yup';
 
 const schema = Yup.object().shape({
@@ -14,6 +15,9 @@ const LoginPage = () => {
 
     return (
         <>
+            <Helmet>
+                <title>Jatim {process.env.REACT_APP_WEB_NAME} - Login</title>
+            </Helmet>
             <main>
                 <div className="container">
 

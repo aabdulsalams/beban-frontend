@@ -11,6 +11,7 @@ import * as Yup from 'yup';
 import alertify from "alertifyjs";
 import "alertifyjs/build/css/alertify.min.css";
 import "alertifyjs/build/css/themes/bootstrap.min.css";
+import { Helmet } from "react-helmet";
 
 const fetcher = url => api.get(url).then(res => res.data.data)
 
@@ -47,6 +48,9 @@ const CreateDisasterLocationPage = () => {
 
     return (
         <Layout>
+            <Helmet>
+                <title>Buat data bencana</title>
+            </Helmet>
             <SectionHeader title="Create Disaster Location">
                 <Breadcrumb>
                     <BreadcrumbItem text="Home" />

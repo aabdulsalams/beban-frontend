@@ -4,6 +4,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import api from "../utils/api";
 import useSWR from "swr";
 import { useParams } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 const fetcher = url => api.get(url).then(res => res.data.data)
 
@@ -13,6 +14,9 @@ const ShowDisasterLocationPage = () => {
 
     return (
         <Layout>
+            <Helmet>
+                <title>Lihat Bencana</title>
+            </Helmet>
             <SectionHeader title="Show Disaster Location">
                 <Breadcrumb>
                     <BreadcrumbItem text="Home" />
