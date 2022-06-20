@@ -1,6 +1,6 @@
 const SectionBody = ({ children }) => {
     return (
-        <section className="section">
+        <section className="section dashboard">
             { children }
         </section>
     );
