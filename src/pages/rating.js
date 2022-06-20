@@ -1,6 +1,6 @@
 import Layout from "../components/layouts/Layout";
 import { Breadcrumb, BreadcrumbItem, SectionHeader, SectionBody } from "../components/bootstrap";
-import api from "../utils/api";
+import api from "../utils/public-api";
 import useSWR from "swr";
 import { useSWRConfig } from "swr";
 import { useNavigate } from "react-router-dom";
@@ -15,8 +15,23 @@ const RatingsPage = () => {
     // eslint-disable-next-line
     const navigate = useNavigate();
 
+    function checkStatus(count) {
+        let status = 'N/A';
+
+        if (count >= 1 && count <=3) {
+            status = 'Rendah';
+        } else if (count >= 4 && count <=6) {
+            status = 'Sedang';
+        } else if (count > 6) {
+            status = 'Tinggi';
+        }
+        return status;
+      }
+
     return (
+
         <Layout>
+                    {console.log(data)}
             <Helmet>
                 <title>Peringkat</title>
             </Helmet>
@@ -46,9 +61,9 @@ const RatingsPage = () => {
                                             return (
                                                 <tr key={location.id}>
                                                     <th scope="row">{location.id}</th>
-                                                    <td>{location.place}</td>
-                                                    <td>{location.city}</td>
                                                     <td>{location.address}</td>
+                                                    <td>{checkStatus(location.total_disasters)}</td>
+                                                    <td>{location.total_disasters}</td>
                                                 </tr>
                                             );
                                         })}

@@ -24,7 +24,7 @@ function App() {
       <Route path='/register' element={<GuestPage><RegisterPage /></GuestPage>} />
       <Route path='/dashboard' element={<RequireAuth><DashboardPage /></RequireAuth>} />
       <Route path='/disasters' element={<RequireAuth><DisasterLocationsPage /></RequireAuth>} />
-      <Route path='/rating' element={<RequireAuth><RatingsPage /></RequireAuth>} />
+      <Route path='/rating' element={<RatingsPage />} />
       <Route path='/disasters/create' element={<RequireAuth><CreateDisasterLocationPage /></RequireAuth>} />
       <Route path='/disasters/:id' element={<RequireAuth><ShowDisasterLocationPage /></RequireAuth>} />
       <Route path='/disasters/edit/:id' element={<RequireAuth><UpdateDisasterLocationPage /></RequireAuth>} />
