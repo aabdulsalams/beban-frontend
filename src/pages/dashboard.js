@@ -37,18 +37,14 @@ const DashboardPage = () => {
                                         return (
                                             <Marker position={[disaster.latitude, disaster.longitude]} key={disaster.id}>
                                                 <Popup>
-                                                    <b>{disaster.address}</b> <br />
-                                                    <i>Postal Code : {disaster.postal_code}</i> <br />
-                                                    <p>{disaster.description}</p> <br />
+                                                    <b>{disaster.address}</b>
+                                                    <p>{disaster.city}</p>
+                                                    <i>Postal Code : {disaster.postal_code}</i>
+                                                    <p>{disaster.description}</p>
                                                 </Popup>
                                             </Marker>
                                         );
                                     })}
-                                    {/* <Marker position={position}>
-                                        <Popup>
-                                            A pretty CSS3 popup. <br /> Easily customizable.
-                                        </Popup>
-                                    </Marker> */}
                                 </MapContainer>
                             </div>
                         </div>

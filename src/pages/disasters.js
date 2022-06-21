@@ -50,6 +50,7 @@ const DisasterLocationsPage = () => {
                                         <tr>
                                             <th scope="col">#</th>
                                             <th scope="col">Address</th>
+                                            <th scope="col">City</th>
                                             <th scope="col">Postal Code</th>
                                             <th scope="col">Latitude</th>
                                             <th scope="col">Longitude</th>
@@ -62,6 +63,7 @@ const DisasterLocationsPage = () => {
                                                 <tr key={index}>
                                                     <th scope="row">{disaster.id}</th>
                                                     <td>{disaster.address}</td>
+                                                    <td>{disaster.city}</td>
                                                     <td>{disaster.postal_code}</td>
                                                     <td>{disaster.latitude}</td>
                                                     <td>{disaster.longitude}</td>

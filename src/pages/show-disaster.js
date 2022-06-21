@@ -31,6 +31,7 @@ const ShowDisasterLocationPage = () => {
                             <div className="card-body">
                                 <h5 className="card-title">Show Disaster Location</h5>
                                 <b>Address</b> <p>{data?.address}</p>
+                                <b>City</b> <p>{data?.city}</p>
                                 <b>Postal Code</b> <p>{data?.postal_code}</p>
                                 <b>Latitude</b> <p>{data?.latitude}</p>
                                 <b>Longitude</b> <p>{data?.longitude}</p>
@@ -51,9 +52,10 @@ const ShowDisasterLocationPage = () => {
                                         />
                                         <Marker position={[data.latitude, data.longitude]}>
                                             <Popup>
-                                                <b>{data.address}</b> <br />
-                                                <i>Postal Code : {data.postal_code}</i> <br />
-                                                <p>{data.description}</p> <br />
+                                                <b>{data.address}</b>
+                                                <p>{data.city}</p>
+                                                <i>Postal Code : {data.postal_code}</i>
+                                                <p>{data.description}</p>
                                             </Popup>
                                         </Marker>
                                     </MapContainer>

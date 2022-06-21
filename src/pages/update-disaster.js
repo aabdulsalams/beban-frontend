@@ -8,6 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useState, useRef, useCallback, useMemo } from "react";
 import Select from "react-select";
 import * as Yup from 'yup';
+import data_jatim from "../data/jatim";
 import alertify from "alertifyjs";
 import "alertifyjs/build/css/alertify.min.css";
 import "alertifyjs/build/css/themes/bootstrap.min.css";
@@ -18,7 +19,8 @@ const fetcher = url => api.get(url).then(res => res.data.data)
 const schema = Yup.object().shape({
     address: Yup.string().required(),
     postal_code: Yup.number().required(),
-    description: Yup.string().required()
+    description: Yup.string().required(),
+    city: Yup.string().required()
 });
 
 const UpdateDisasterLocationPage = () => {
@@ -75,12 +77,14 @@ const UpdateDisasterLocationPage = () => {
                                             address: data.address,
                                             postal_code: data.postal_code,
                                             description: data.description,
+                                            city: data.city,
                                             disaster_types_id: data.types.map((type) => type.id)
                                         }}
                                         onSubmit={(values) => {
                                             // alert(JSON.stringify(values, null, 2));
                                             let bodyContent = JSON.stringify({
                                                 "address": values.address,
+                                                "city": values.city,
                                                 "description": values.description,
                                                 "postal_code": values.postal_code,
                                                 "latitude": position.lat.toString(),
@@ -107,6 +111,17 @@ const UpdateDisasterLocationPage = () => {
                                                     <label htmlFor="postal_code" className="form-label">Postal Code</label>
                                                     <input type="text" className={`form-control ${!!errors.postal_code ? 'is-invalid' : ''}`} name="postal_code" onChange={handleChange} value={values.postal_code} />
                                                     <div className="invalid-feedback">{errors.postal_code}</div>
+                                                </div>
+                                                <div className="col-12">
+                                                    <label htmlFor="city" className="form-label">City</label>
+                                                    <Select
+                                                        defaultValue={{value: values.city, label: values.city}}
+                                                        options={data_jatim.map((item) => {
+                                                            return { value: item, label: item }
+                                                        })}
+                                                        onChange={(item) => setFieldValue('city', item.value)}
+                                                    />
+                                                    {errors.city && (<span className="text-danger">{errors.city}</span>)}
                                                 </div>
                                                 <div className="col-12">
                                                     <label htmlFor="disaster_type" className="form-label">Disaster Type</label>

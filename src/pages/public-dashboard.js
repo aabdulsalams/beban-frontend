@@ -72,18 +72,14 @@ const PublicDashboardPage = () => {
                                                 return (
                                                     <Marker position={[location.latitude, location.longitude]} key={location.id}>
                                                         <Popup>
-                                                            <b>{location.address}</b> <br />
-                                                            <i>Postal Code : {location.postal_code}</i> <br />
-                                                            <p>{location.description}</p> <br />
+                                                            <b>{location.address}</b>
+                                                            <p>{location.city}</p>
+                                                            <i>Postal Code : {location.postal_code}</i>
+                                                            <p>{location.description}</p>
                                                         </Popup>
                                                     </Marker>
                                                 );
                                             })}
-                                            {/* <Marker position={position}>
-                                        <Popup>
-                                            A pretty CSS3 popup. <br /> Easily customizable.
-                                        </Popup>
-                                    </Marker> */}
                                         </MapContainer>
                                     </div>
                                 </div>

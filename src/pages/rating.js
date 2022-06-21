@@ -45,6 +45,7 @@ const RatingsPage = () => {
                                         <tr>
                                             <th scope="col">#</th>
                                             <th scope="col">Place</th>
+                                            <th scope="col">City</th>
                                             <th scope="col">Status</th>
                                             <th scope="col">Count</th>
                                         </tr>
@@ -55,6 +56,7 @@ const RatingsPage = () => {
                                                 <tr key={location.id}>
                                                     <th scope="row">{location.id}</th>
                                                     <td>{location.address}</td>
+                                                    <td>{location.city}</td>
                                                     <td>{checkStatus(location.total_disasters)}</td>
                                                     <td>{location.total_disasters}</td>
                                                 </tr>
