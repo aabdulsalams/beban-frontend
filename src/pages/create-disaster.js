@@ -20,7 +20,8 @@ const schema = Yup.object().shape({
     address: Yup.string().required(),
     postal_code: Yup.number().required(),
     description: Yup.string().required(),
-    city: Yup.string().required()
+    city: Yup.string().required(),
+    disaster_types_id: Yup.array().min(1, "Fill this field at least one").required()
 });
 
 const CreateDisasterLocationPage = () => {
@@ -128,6 +129,7 @@ const CreateDisasterLocationPage = () => {
                                                     })}
                                                     onChange={(item) => setFieldValue('disaster_types_id', item.map((select) => select.value))}
                                                 />
+                                                {errors.disaster_types_id && (<span className="text-danger">{errors.disaster_types_id}</span>)}
                                             </div>
                                             <div className="col-12">
                                                 <label htmlFor="description" className="form-label">Description</label>

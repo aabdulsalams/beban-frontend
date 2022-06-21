@@ -20,7 +20,8 @@ const schema = Yup.object().shape({
     address: Yup.string().required(),
     postal_code: Yup.number().required(),
     description: Yup.string().required(),
-    city: Yup.string().required()
+    city: Yup.string().required(),
+    disaster_types_id: Yup.array().min(1, "Fill this field at least one").required()
 });
 
 const UpdateDisasterLocationPage = () => {
