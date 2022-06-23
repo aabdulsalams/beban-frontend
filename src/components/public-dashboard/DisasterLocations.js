@@ -8,6 +8,16 @@ const DisasterLocations = () => {
     const position = [-7.536064, 112.238402];
     const { data: disasters } = useSWR('/disasters', fetcher, { refreshInterval: 3000 });
 
+    const countMeaning = (count) => {
+        if (count === 1) {
+            return "once";
+        } else if (count === 2) {
+            return "twice";
+        } else {
+            return `${count} times`;
+        }
+    }
+
     return (
         <div className="col-12">
             <div className="card">
@@ -25,6 +35,14 @@ const DisasterLocations = () => {
                                         <b>{location.address}</b>
                                         <p>{location.city}</p>
                                         <i>Postal Code : {location.postal_code}</i>
+                                        <p>Disaster Types</p>
+                                        <ul>
+                                            {location?.types.map((type, index) => {
+                                                return (
+                                                    <li key={index}>{type.name} {countMeaning(type.pivot.count)}, last time happened on {type.pivot.updated_at} UTC</li>
+                                                );
+                                            })}
+                                        </ul>
                                         <p>{location.description}</p>
                                     </Popup>
                                 </Marker>
